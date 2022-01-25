@@ -21,7 +21,7 @@ containers = page_soup.findAll("li", {"class", "ui-search-layout__item"})
 # name the output file to write to local disk
 filename = "mercadolibre_tvs.csv"
 f = open(filename, "w")
-headers = "Titulo, Precio, Link\n"
+headers = "Titulo, Marca, Modelo, Precio, Link, Envío\n"
 
 f.write(headers)
 
@@ -34,32 +34,32 @@ for container in containers:
 
     link = title[0]["href"]
 
-    link_container = container.findAll("a", {"class", "ui-search-item__group__element"})
-    link = link_container[0].href
-
-    # shipping_container = container.findAll("span", {"class", "ui-search-item__promise__text"})
-    # shipping = shipping_container[0].text
-
     # opens the connection and downloads html page from url for the specific product
-    uClient = uReq(link)
-    page_html = uClient.read()
-    page_soup = soup(page_html, "html.parser")
+    uClient_2 = uReq(link)
+    page_html_item = uClient_2.read()
+    page_soup = soup(page_html_item, "html.parser")
     uClient.close()
 
     brand_container = page_soup.findAll("span", {"class", "andes-table__column--value"})
     brand = brand_container[0].text
 
-    model_container = page_soup.findAll("span", {"class", "andes-table__column--value"})
-    model = brand_container[0].text
+    model_container = page_soup.findAll("tr", {"class", "andes-table__row"})
+    model_aux = model_container[1].findAll("span", {"class", "andes-table__column--value")
+    model = model_aux[0].text
 
     price_container = page_soup.findAll("div", {"class", "ui-pdp-price__second-line"})
     price = price_container[0].meta["content"]
 
+    shipping_container = page_soup.findAll({"p", "ui-pdp-media__title"})
+    shipping = shipping_container[32].text
+
     print("Título: " + titulo)
+    print("Marca: " + brand)
+    print("Modelo: " + model)
     print("Precio: " + price)
     print("Link: " + link)
-    #print("Envío: " + shipping)
+    print("Envío: " + shipping)
 
-    f.write(titulo.replace(",", "|") + "," + price + "," + "link" + "\n")
+    f.write(titulo.replace(",", "|") + "," + "brand" + "," + "model" + "," + price + "," + "link" + "," + "shipping" + "\n")
 
 f.close()
