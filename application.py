@@ -19,9 +19,9 @@ uClient.close()
 containers = page_soup.findAll("li", {"class", "ui-search-layout__item"})
 
 # name the output file to write to local disk
-filename = "mercadolibre_tvs.csv"
+filename = "mercadolibre_tv.csv"
 f = open(filename, "w")
-headers = "Titulo, Marca, Modelo, Precio, Link, Envío\n"
+headers = "Titulo, Marca, Modelo, Precio, Envío, Link\n"
 
 f.write(headers)
 
@@ -44,7 +44,7 @@ for container in containers:
     brand = brand_container[0].text
 
     model_container = page_soup.findAll("tr", {"class", "andes-table__row"})
-    model_aux = model_container[1].findAll("span", {"class", "andes-table__column--value")
+    model_aux = model_container[1].findAll("span", {"class", "andes-table__column--value"})
     model = model_aux[0].text
 
     price_container = page_soup.findAll("div", {"class", "ui-pdp-price__second-line"})
@@ -60,6 +60,6 @@ for container in containers:
     print("Link: " + link)
     print("Envío: " + shipping)
 
-    f.write(titulo.replace(",", "|") + "," + "brand" + "," + "model" + "," + price + "," + "link" + "," + "shipping" + "\n")
+    f.write(titulo.replace(",", "|") + "," + brand + "," + model + "," + price +  "," + shipping + "," + link + "\n")
 
 f.close()
