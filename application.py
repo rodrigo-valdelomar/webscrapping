@@ -63,5 +63,3 @@ for container in containers:
     f.write(titulo.replace(",", "|") + "," + price + "," + "link" + "\n")
 
 f.close()
-
-# just a git test
