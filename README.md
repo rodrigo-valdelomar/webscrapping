@@ -1,2 +1,2 @@
 # webscrapping
-Testing web scrapping technique
+This app scrapes data from Mercadolibre.com.ar 
